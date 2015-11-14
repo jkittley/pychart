@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>Package Map</title>
+<style>
+
+.link {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node {
+  fill: #000;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 12px sans-serif;
+  color: white;
+}
+
+</style>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="peek.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='style.css' rel='stylesheet' type='text/css'>
+<script>
+  $( document ).ready(function() {
+    peek.init('.info-panel');
+  });
+</script>
+</head>
+<body>
+  <div class="site-title">PyChart</div>
+  <div class="info-panel">
+    <div class="title">Please select a node</div>
+    <div class="description">Hurry up!</div>
+    <div class="links"><a href="#" class="pypi-link">View on PyPi</a></div>
+  </div>
+</body>
+</html>

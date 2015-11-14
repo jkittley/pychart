@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<style>
+text {
+  font: 10px sans-serif;
+}
+.node {
+  cursor: pointer;
+}
+
+</style>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/bubbles.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='css/base.css' rel='stylesheet' type='text/css'>
+
+<script src="https://cdn.jsdelivr.net/jquery.roundslider/1.0/roundslider.min.js"></script>
+<link href='https://cdn.jsdelivr.net/jquery.roundslider/1.0/roundslider.min.css' rel='stylesheet' type='text/css'>
+
+<script>
+  $( document ).ready(function() {
+    bubble.init($(window).width(), $(window).height() - $('.seek-panel').height());
+    $("#slider2").roundSlider({
+        sliderType: "range",
+        value: "10,40"
+    });
+    $(".site-title").click(function(event) {
+      bubble.reset();
+    });
+  });
+</script>
+<title>PyChart - Explore Python packages and see how the Python community is using them together.</title>
+</head>
+<body>
+  <div class="frame-index">
+  <div class="site-title">PyChart</div>
+  <div class="seek-panel">
+    
+
+            <div class="search">
+                <div class="input-group">
+                    <input type="text" class="form-control input-lg" placeholder="Search" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+              </div>
+
+              <p class="text-center helptext">This plot shows all the packages detected in active Github repos. The size of the bubble relates to the number of occurances discovered. A repo is deamed active if any activity has been see in the past year. <a hef="#">To see historic data click here</a></p>
+
+</div>
+
+    <div class="settings">
+          <div id="slider2" class="rslider"></div>
+    </div>
+  </div>
+</body>
+</html>
