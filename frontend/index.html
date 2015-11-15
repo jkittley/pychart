@@ -24,7 +24,7 @@ text {
 
 <script>
   $( document ).ready(function() {
-    bubble.init($(window).width(), $(window).height() - $('.seek-panel').height());
+    bubble.init(".vis", ".seek-panel", ".node-info", $(window).width(), $(window).height() - $('.seek-panel').height());
     $("#slider2").roundSlider({
         sliderType: "range",
         value: "10,40"
@@ -39,23 +39,30 @@ text {
 <body>
   <div class="frame-index">
   <div class="site-title">PyChart</div>
+
+  <div class="vis"></div>
+
+  
+
   <div class="seek-panel">
-    
+    <div class="search">
+        <div class="input-group">
+            <input type="text" class="form-control input-lg search-input" placeholder="Search" />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-lg" type="button">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
+      </div>
+      <p class="text-center helptext">This plot shows all the packages detected in active Github repos. The size of the bubble relates to the number of occurances discovered. A repo is deamed active if any activity has been see in the past year. <a hef="#">To see historic data click here</a></p>
+    </div>
 
-            <div class="search">
-                <div class="input-group">
-                    <input type="text" class="form-control input-lg" placeholder="Search" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
-                </div>
-              </div>
-
-              <p class="text-center helptext">This plot shows all the packages detected in active Github repos. The size of the bubble relates to the number of occurances discovered. A repo is deamed active if any activity has been see in the past year. <a hef="#">To see historic data click here</a></p>
-
-</div>
+    <div class="node-info">
+      <p class="lead">Loading details</p>
+      <p class="pinfo">Package information</p>
+      <div class="close"><a>&times;</a></div>
+    </div>
 
     <div class="settings">
           <div id="slider2" class="rslider"></div>

@@ -5,46 +5,77 @@
   left: 10px;
   top: 10px;
 }
+
 body {
     padding: 0;
     margin: 0;
 }
 
-/*
-    INDEX PAGE
-*/
+.vis {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
 
-.frame-index .seek-panel {
+.seek-panel {
   width: 100vw;
   height: 200px;
   background-color: #eee;
+  background-color: rgba(155,155,155,0.4);
   position: absolute;
   bottom: 0;
 }
 
-.frame-index .seek-panel .search {
-    margin: 30px;
+.node-info {
+    width: 100vw;
+    height: 200px;
+    background-color: #eee;
+    position: absolute;
+    bottom: 0;
+    padding: 15px;
 }
 
-.frame-index .seek-panel p {
+.node-info .close {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.node-info .close a {
+  color: black;
+  font-size: 30px;
+}
+
+.node-info .pinfo {
     font-family: 'Raleway', sans-serif;
-  font-size: 18px;
+    font-size: 18px;
+}
+
+.seek-panel .search {
     margin: 30px;
 }
 
-.frame-index .search {
+.seek-panel p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    margin: 30px;
+}
+
+.search {
     padding: 3px;
     border: solid 1px #E4E4E4;
     border-radius: 6px;
     background-color: #fff;
 }
 
-.frame-index .search input{
+.search input{
     border: 0;
     box-shadow: none;
 }
 
-.frame-index .search button{
+.search button{
     margin: 2px 0 0 0;
     background: none;
     box-shadow: none;
@@ -54,17 +85,17 @@ body {
     border-left: solid 1px #ccc;
 }
 
-.frame-index .search button:hover{
+.search button:hover{
     border: 0;
     box-shadow: none;
     border-left: solid 1px #ccc;
 }
 
-.frame-index .search .glyphicon-search{
+.search .glyphicon-search{
     font-size: 23px;
 }
 
-.frame-index .settings {
+.settings {
     position: absolute;
     top:10px;
     right:100px;
@@ -73,43 +104,7 @@ body {
 }
 
 .focus-node {
-  stroke: white;
-  stroke-width: 10px;
-  stroke-dasharray: 10 10;
-}
-/*
-    PEEK
-*/
-
-.info-panel {
-  width: 100%;
-  height: 200px;
-  background-color: #eee;
-  position: absolute;
-  bottom: 0;
-  padding: 10px;
-  margin: 0;
-}
-
-.info-panel .title {
-  font-family: 'Raleway', sans-serif;
-  font-size: 22px;
-  padding-bottom:8px;
-}
-
-.info-panel .description {
-  font-family: 'Raleway', sans-serif;
-  font-size: 16px;
-}
-
-.info-panel .links {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding:10px;
-}
-
-.info-panel a {
-  font-family: 'Raleway', sans-serif;
-  font-size: 16px;
+  stroke: black;
+  stroke-width: 2px;
+/*  stroke-dasharray: 10 10;*/
 }
