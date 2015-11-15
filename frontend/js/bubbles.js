@@ -85,11 +85,16 @@ var bubble = (function() {
       center.x = width/2;
       center.y = (height/2) - ($(search_element).height()/2);
       center.point = [center.x,center.y];
+      // Center scroll pane
+      $(vis_div).animate({ scrollTop: height / 3 });
+      $(vis_div).animate({ scrollLeft: width / 4 });
       // Load nodes
       nodes = loadNodes();
       // Add search listener
       $(search_element+' .search-input').on("keyup", search_state_changed);
       $(search_element+' .search-input').focus();
+      // Add info pane listener
+      $(node_info+' .close a').on("click", reset);
     }
 
     // Once nodes are all loaded
@@ -181,7 +186,7 @@ var bubble = (function() {
       focusNode = n;   
 
       // Hide search and show info
-      showInfo();
+      showInfo(focusNode);
       
       // Bring neighbours back in
       setTimeout(function(){ 
@@ -243,6 +248,7 @@ var bubble = (function() {
 
     // Reset state to that at load
     var reset = function() {
+      $(search_element + ' .search-input').val('');
       showSearch();
       resetAllNodes();
     }
@@ -268,6 +274,7 @@ var bubble = (function() {
         testNodes.push({
           "id": i,
           "name": rndstr(2),
+          "desc": rndstr(52),
           "pypi": "http://www.pychart.com/get_pypi_data/"+i,
           "popularity": popularity,
           "neighbours": neighbours
@@ -307,7 +314,9 @@ var bubble = (function() {
       force.start();
     }
 
-    var showInfo = function() {
+    var showInfo = function(node) {
+      $(node_info+' .ptitle').html(node.data.name+' <a class="" target="_blank" href="'+node.data.pypi+'">[PyPi]</a>');
+      $(node_info+' .pinfo').html(node.data.desc);
       panelsAnimate(node_info, search_element);
     }
 
