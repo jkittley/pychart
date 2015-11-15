@@ -17,10 +17,15 @@ var bubble = (function() {
         search_element=null,
         vis_div=null,
         node_info=null,
-        stats=null;
+        stats=null,
+        rangeSlider=null;
 
     var infoVisivle = false,
         searchVisible = true;
+
+    var search_text = null,
+        search_low  = null,
+        search_high = null; 
 
     var n = 200, // total number of nodes
         m = 10; // number of distinct clusters
@@ -129,7 +134,6 @@ var bubble = (function() {
           .style("fill", function(d) { return d.color; })
           .on('click', nodeClick);
 
-      initRangeSlider();
     }
 
     // Set the gravitational home of a node
@@ -165,12 +169,13 @@ var bubble = (function() {
           });
         }
 
+        initRangeSlider(stats);
         onNodesLoad(nodes);
       });
     }
     
     // When a node is selected
-    var nodeClick = function(n, i) {
+    var nodeClick = function(n, j) {
       // If the node clicked is the one currently focused then ignore
       if (focusNode !== null && focusNode === n) return
       // Deselect current node
@@ -183,7 +188,7 @@ var bubble = (function() {
       for (i in nodes) { if (nodes[i] !== n) hideNode(nodes[i]); }
       // Make selected node the new focus node
       $("#node_"+n.data.id).attr("class","node focus-node");
-      $("#node_"+n.data.id).attr("r", focusRadius);
+      $("#node_"+n.data.id).attr("r", focusRadius - padding);
       n.radius = 80;
       n.x = width / 2;
       n.y = height / 2;
@@ -214,15 +219,16 @@ var bubble = (function() {
     // Function to set gravity of a node to be in orbit of focusNode
     var orbitNode = function(node) {
         var rndPos = rndNodePosition(focusRadius + padding);
+        //console.log(rndPos);
         setNodeGravityPoint(node, [center.x + rndPos.o, center.y - rndPos.a]);
     }
 
     // Calculate a random position at a dist_from_center fron the center point
-    var rndNodePosition = function(dist_from_center) {
+    var rndNodePosition = function(h) {
         var t = Math.round(Math.random() * 359);
-        var o = parseInt( dist_from_center * Math.sin(t) );
-        var a = parseInt( dist_from_center * Math.cos(t) );
-        return { "o":o, "h":dist_from_center, "a":a, "t":t }
+        var o = parseInt( h * Math.sin(t) );
+        var a = parseInt( h * Math.cos(t) );
+        return { "o":o, "h":h, "a":a, "t":t }
     }
 
     // Reset the size and gravity point of all nodes
@@ -283,11 +289,13 @@ var bubble = (function() {
           "neighbours": neighbours
         });
       };
+
       // Return as JSON
       return { 
         "stats": {
           "max_pop": max_pop,
-          "min_pop": min_pop
+          "min_pop": min_pop,
+          "init_range": "10,40"
         },
         "nodes": testNodes,
       }
@@ -300,21 +308,6 @@ var bubble = (function() {
         for( var i=0; i < num_chars; i++ )
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
-    }
-
-    // When the state of the search box changes, reprocess the found nodes
-    var search_state_changed = function() {
-      var text = $(search_element+' .search-input').val().toLowerCase();
-      if (text !=="") resetNode(focusNode);
-      force.start();
-      for (n in nodes) {
-        if (text !=="" && nodes[n].data.name.toLowerCase().indexOf(text)) {
-          hideNode(nodes[n]);
-        } else {
-          setNodeGravityPoint(nodes[n], center.point);
-        }
-      } 
-      force.start();
     }
 
     var hexToRgb = function(hex) {
@@ -336,9 +329,9 @@ var bubble = (function() {
       $(node_info+' .pneighbours').html('Used with<BR><ul></ul>');
       for (i in node.data.neighbours) {
         ney = node.data.neighbours[i];
-        $(node_info+' .pneighbours ul').append('<li><a class="neighbour-list" data-index="'+i+'">'+ney+'</a></li>');
+        $(node_info+' .pneighbours ul').append('<li><a class="neighbour-list" data-index="'+nodes[ney].data.id+'">'+nodes[ney].data.name+'</a></li>');
       }
-      $('.neighbour-list').click(function(e) { nodeClick(nodes[$(this).data('index')]); });
+      $('.neighbour-list').click(function(e) { var ney=$(this).data('index'); nodeClick(nodes[ney], ney); return false;  });
       if (!infoVisivle) {
         infoVisivle = true;
         searchVisible = false;
@@ -366,12 +359,55 @@ var bubble = (function() {
                 .animate({ "bottom": "+="+$(in_elem).height()+"px" }, "slow");
           });   
     }
+
+    var range_change_state = function(e) {
+      var chunks  = e.value.split(',');
+      search_low  = chunks[0];
+      search_high = chunks[1];
+      run_search();
+    }
     
-    var initRangeSlider = function() {
-      $('body').append('<div class="settings"><div id="rangeSlider" class="rslider"></div></div>');
-      $("#rangeSlider").roundSlider({
+    // When the state of the search box changes, reprocess the found nodes
+    var search_state_changed = function() {
+      search_text = $(search_element+' .search-input').val().toLowerCase();
+      if (search_text !=="") resetNode(focusNode);
+      run_search();
+    }
+
+
+    var run_search = function() {
+      var nodesToHide = [];
+      for (n in nodes) {
+        var node = nodes[n];
+        if (search_text !==null && search_text !=="" && node.data.name.toLowerCase().indexOf(search_text) === -1) {
+          console.log("TEXT SEARCH");
+          nodesToHide.push(parseInt(n));
+        } 
+        if (node.data.popularity > search_high || node.data.popularity < search_low) nodesToHide.push(parseInt(n));
+      } 
+      console.log(nodesToHide);
+      // Hide nodes
+      for (n in nodes) {
+        if (n in nodesToHide) {
+          hideNode(nodes[n]);
+        } else {
+          setNodeGravityPoint(nodes[n], center.point);
+        }
+      }
+        
+
+      force.start();
+    }
+
+
+    var initRangeSlider = function(stats) {
+      rangeSlider = $("#rangeSlider").roundSlider({
+        min: stats.min_pop,
+        max: stats.max_pop,
+        radius: 85,
         sliderType: "range",
-        value: stats.min_pop+","+stats.min_pop
+        value: stats.init_range,
+        change: range_change_state
       });
     }
 
