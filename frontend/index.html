@@ -25,13 +25,7 @@ text {
 <script>
   $( document ).ready(function() {
     bubble.init(".vis", ".seek-panel", ".node-info", $(window).width(), $(window).height() - $('.seek-panel').height());
-    $("#slider2").roundSlider({
-        sliderType: "range",
-        value: "10,40"
-    });
-    $(".site-title").click(function(event) {
-      bubble.reset();
-    });
+    $(".site-title").click(function(event) { bubble.reset(); });
   });
 </script>
 <title>PyChart - Explore Python packages and see how the Python community is using them together.</title>
@@ -64,9 +58,7 @@ text {
       <div class="close"><a>&times;</a></div>
     </div>
 
-    <div class="settings">
-          <div id="slider2" class="rslider"></div>
-    </div>
+    
   </div>
 </body>
 </html>

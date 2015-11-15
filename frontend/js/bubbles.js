@@ -16,7 +16,8 @@ var bubble = (function() {
         focusNode=null,
         search_element=null,
         vis_div=null,
-        node_info=null;
+        node_info=null,
+        stats=null;
 
     var n = 200, // total number of nodes
         m = 10; // number of distinct clusters
@@ -111,7 +112,6 @@ var bubble = (function() {
         .on('end', function() { console.log('Force ended!'); })
         .start();
 
-
       svg = d3.select(vis_div)
         .append("svg")
           .attr("width", width)
@@ -126,6 +126,8 @@ var bubble = (function() {
           .attr("r", function(d) { return d.radius; })
           .style("fill", function(d) { return d.color; })
           .on('click', nodeClick);
+
+      initRangeSlider();
     }
 
     // Set the gravitational home of a node
@@ -144,7 +146,7 @@ var bubble = (function() {
       d3.json("js/testdata.json", function(loadedData) {
         var loadedData = testData();
         var nodes = [];
-        var stats = loadedData.stats;
+        stats = loadedData.stats;
         var color = d3.scale.category10().domain(stats.min_pop,stats.max_pop);
 
         for (i in loadedData.nodes) {
@@ -337,6 +339,13 @@ var bubble = (function() {
           });   
     }
     
+    var initRangeSlider = function() {
+      $('body').append('<div class="settings"><div id="rangeSlider" class="rslider"></div></div>');
+      $("#rangeSlider").roundSlider({
+        sliderType: "range",
+        value: stats.min_pop+","+stats.min_pop
+      });
+    }
 
     // -----------------
     // Public API
