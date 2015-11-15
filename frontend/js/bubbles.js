@@ -103,6 +103,7 @@ var bubble = (function() {
       $(search_element+' .search-input').focus();
       // Add info pane listener
       $(node_info+' .close a').on("click", reset);
+      
     }
 
     // Once nodes are all loaded
@@ -134,6 +135,8 @@ var bubble = (function() {
           .style("fill", function(d) { return d.color; })
           .on('click', nodeClick);
 
+      // Run search
+      run_search();
     }
 
     // Set the gravitational home of a node
@@ -295,7 +298,9 @@ var bubble = (function() {
         "stats": {
           "max_pop": max_pop,
           "min_pop": min_pop,
-          "init_range": "10,40"
+          "init_range": "10,40",
+          "init_low": 10,
+          "init_high": 40
         },
         "nodes": testNodes,
       }
@@ -380,12 +385,11 @@ var bubble = (function() {
       for (n in nodes) {
         var node = nodes[n];
         if (search_text !==null && search_text !=="" && node.data.name.toLowerCase().indexOf(search_text) === -1) {
-          console.log("TEXT SEARCH");
           nodesToHide.push(parseInt(n));
         } 
-        if (node.data.popularity > search_high || node.data.popularity < search_low) nodesToHide.push(parseInt(n));
+        if (search_high !== null && node.data.popularity > search_high) nodesToHide.push(parseInt(n));
+        if (search_low  !== null && node.data.popularity < search_low)  nodesToHide.push(parseInt(n));
       } 
-      console.log(nodesToHide);
       // Hide nodes
       for (n in nodes) {
         if (n in nodesToHide) {
@@ -394,13 +398,13 @@ var bubble = (function() {
           setNodeGravityPoint(nodes[n], center.point);
         }
       }
-        
-
       force.start();
     }
 
 
     var initRangeSlider = function(stats) {
+      search_low  = stats.init_low;
+      search_high = stats.init_high;
       rangeSlider = $("#rangeSlider").roundSlider({
         min: stats.min_pop,
         max: stats.max_pop,
