@@ -213,7 +213,6 @@ var bubble = (function() {
 
     // Function to set gravity of a node to be in orbit of focusNode
     var orbitNode = function(node) {
-        console.log(node);
         var rndPos = rndNodePosition(focusRadius + padding);
         setNodeGravityPoint(node, [center.x + rndPos.o, center.y - rndPos.a]);
     }
@@ -330,8 +329,16 @@ var bubble = (function() {
     var showInfo = function(node) {
       var rgb = hexToRgb(node.color);
       $(node_info).css('background-color', "rgba("+rgb.r+", "+rgb.g+", "+rgb.b+", 0.4)" );
-      $(node_info+' .ptitle').html(node.data.name+' <a class="" target="_blank" href="'+node.data.pypi+'">[PyPi]</a>');
-      $(node_info+' .pinfo').html(node.data.desc);
+      $(node_info+' .ptitle').html(node.data.name+' ');
+      $(node_info+' .pinfo span').html(node.data.desc);
+      $(node_info+' .pinfo a').attr('href', node.data.pypi);
+
+      $(node_info+' .pneighbours').html('Used with<BR><ul></ul>');
+      for (i in node.data.neighbours) {
+        ney = node.data.neighbours[i];
+        $(node_info+' .pneighbours ul').append('<li><a class="neighbour-list" data-index="'+i+'">'+ney+'</a></li>');
+      }
+      $('.neighbour-list').click(function(e) { nodeClick(nodes[$(this).data('index')]); });
       if (!infoVisivle) {
         infoVisivle = true;
         searchVisible = false;

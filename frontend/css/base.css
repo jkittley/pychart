@@ -50,8 +50,22 @@ body {
 }
 
 .node-info .pinfo {
+    width: 66%;
+}
+
+.node-info .pinfo span {
     font-family: 'Raleway', sans-serif;
     font-size: 18px;
+}
+
+.node-info .pneighbours {
+  padding: 10px;
+  position: absolute;
+  width: 33%;
+  height: 100%;
+  right: 0;
+  top:0px;
+  overflow: auto;
 }
 
 .seek-panel .search {
@@ -105,7 +119,11 @@ body {
 }
 
 .focus-node {
-  stroke: black;
-  stroke-width: 2px;
+  stroke: #ccc;
+  stroke-width: 4px;
 /*  stroke-dasharray: 10 10;*/
+}
+
+.neighbour-list {
+  cursor: pointer;
 }
