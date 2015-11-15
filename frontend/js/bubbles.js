@@ -19,6 +19,9 @@ var bubble = (function() {
         node_info=null,
         stats=null;
 
+    var infoVisivle = false,
+        searchVisible = true;
+
     var n = 200, // total number of nodes
         m = 10; // number of distinct clusters
 
@@ -29,7 +32,6 @@ var bubble = (function() {
           .each(collide(.5))
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; });
-
     }
 
     // Move nodes toward cluster focus.
@@ -316,14 +318,33 @@ var bubble = (function() {
       force.start();
     }
 
+    var hexToRgb = function(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
     var showInfo = function(node) {
+      var rgb = hexToRgb(node.color);
+      $(node_info).css('background-color', "rgba("+rgb.r+", "+rgb.g+", "+rgb.b+", 0.4)" );
       $(node_info+' .ptitle').html(node.data.name+' <a class="" target="_blank" href="'+node.data.pypi+'">[PyPi]</a>');
       $(node_info+' .pinfo').html(node.data.desc);
-      panelsAnimate(node_info, search_element);
+      if (!infoVisivle) {
+        infoVisivle = true;
+        searchVisible = false;
+        panelsAnimate(node_info, search_element);
+      }
     }
 
     var showSearch = function() {
-      panelsAnimate(search_element, node_info);
+      if (!searchVisible) {
+        searchVisible = true;
+        infoVisivle = false;
+        panelsAnimate(search_element, node_info);
+      }
     }
 
     var panelsAnimate = function(in_elem, out_elem) {
