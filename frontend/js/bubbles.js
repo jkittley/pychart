@@ -42,8 +42,14 @@ var bubble = (function() {
     // Move nodes toward cluster focus.
     function gravity(alpha) {
       return function(d) {
-          d.y += (d.cy - d.y) * alpha;
-          d.x += (d.cx - d.x) * alpha;
+        if (d === focusNode) {
+          // Stronger gravity for focus node
+          d.y += (d.cy - d.y) * alpha * 10;
+          d.x += (d.cx - d.x) * alpha * 10;
+        } else {
+          d.y += (d.cy - d.y) * alpha * 2;
+          d.x += (d.cx - d.x) * alpha * 2;
+        }
       };
     }
 
@@ -125,8 +131,15 @@ var bubble = (function() {
           .attr("width", width)
           .attr("height", height);
         
+      createNodes(n);
+
+      // Run search
+      run_search();
+    }
+
+    var createNodes =function(new_nodes) {
       circle = svg.selectAll(".node")
-        .data(nodes)
+        .data(new_nodes)
         .enter()
         .append("circle")
           .attr("class","node")
@@ -136,9 +149,6 @@ var bubble = (function() {
           .on('click', nodeClick)
           .on('mouseover', showNodeLabel)
           .on('mouseout', hodeNodeLabel);
-
-      // Run search
-      run_search();
     }
 
     var showNodeLabel = function(d) {
@@ -157,9 +167,6 @@ var bubble = (function() {
 
       var o2 = cd * Math.sin(t),
           a2 = cd * Math.cos(t);
-
-
-      console.log(h);
 
       svg.append("line")         
         .attr('class', 'node-label node-label-line')
@@ -250,8 +257,8 @@ var bubble = (function() {
       $("#node_"+n.data.id).attr("class","node focus-node");
       $("#node_"+n.data.id).attr("r", focusRadius - padding);
       n.radius = 80;
-      n.x = width / 2;
-      n.y = height / 2;
+      n.x = n.cx = center.x;
+      n.y = n.cy = center.y;
       focusNode = n;   
 
       // Hide search and show info
@@ -274,6 +281,8 @@ var bubble = (function() {
     var hideNode = function(node) {
         var rndPos = rndNodePosition(Math.max(width/3, height/3));
         setNodeGravityPoint(node, [center.x + rndPos.o, center.y - rndPos.a]);
+        //svg.select("#node_"+node.id).remove();
+        svg.select("#node_"+node.data.id).remove();
     }
 
     // Function to set gravity of a node to be in orbit of focusNode
@@ -325,7 +334,7 @@ var bubble = (function() {
     // Generate test data
     var testData = function() {
       var testNodes  = [];
-      var totalNodes = 600;
+      var totalNodes = 500;
       var max_pop = null;
       var min_pop = null;
 
@@ -355,9 +364,9 @@ var bubble = (function() {
         "stats": {
           "max_pop": max_pop,
           "min_pop": min_pop,
-          "init_range": "10,40",
-          "init_low": 10,
-          "init_high": 40
+          "init_range": "95,100",
+          "init_low": 95,
+          "init_high": 100
         },
         "nodes": testNodes,
       }
