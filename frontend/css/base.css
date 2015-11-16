@@ -9,12 +9,13 @@
 body {
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 .vis {
   width: 100vw;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .seek-panel {
@@ -24,16 +25,18 @@ body {
   background-color: rgba(155,155,155,0.4);
   position: absolute;
   bottom: 0;
+  overflow: hidden;
 }
 
 .node-info {
-    width: 100vw;
+    width: 100%;
     height: 200px;
     background-color: #eee;
     background-color: rgba(0,155,155,0.4);
     position: absolute;
     bottom: 0;
     padding: 15px;
+    overflow: hidden;
 }
 
 .node-info .close {
@@ -66,6 +69,28 @@ body {
   right: 0;
   top:0px;
   overflow: auto;
+}
+
+.node-label-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+}
+
+.node-label-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+}
+
+.node-label-line {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.node-label-ring {
+  stroke: #000;
+  stroke-width: 3px;
+  z-index: -1000;
+  fill: none;
 }
 
 .seek-panel .search {

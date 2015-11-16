@@ -133,10 +133,66 @@ var bubble = (function() {
           .attr("id", function(d) { return "node_" + d.data.id; })
           .attr("r", function(d) { return d.radius; })
           .style("fill", function(d) { return d.color; })
-          .on('click', nodeClick);
+          .on('click', nodeClick)
+          .on('mouseover', showNodeLabel)
+          .on('mouseout', hodeNodeLabel);
 
       // Run search
       run_search();
+    }
+
+    var showNodeLabel = function(d) {
+      var offset = $('.vis svg').offset();
+
+      var cd = d.radius + 10;
+
+      var pt = 80 + Math.abs(offset.top),
+          pl = 12 + Math.abs(offset.left),
+          pr = 200 + Math.abs(offset.left);
+      
+      var a = d.x - pr,
+          o = d.y - pt,
+          h = Math.sqrt((a*a) + (o*o));
+          t = Math.atan(o/a);
+
+      var o2 = cd * Math.sin(t),
+          a2 = cd * Math.cos(t);
+
+
+      console.log(h);
+
+      svg.append("line")         
+        .attr('class', 'node-label node-label-line')
+        .attr("x1", d.x - a2)     
+        .attr("y1", d.y - o2)      
+        .attr("x2", pr)     
+        .attr("y2", pt);  
+      svg.append("line")         
+        .attr('class', 'node-label node-label-line')
+        .attr("x1", pl) 
+        .attr("y1", pt)
+        .attr("x2", pr)     
+        .attr("y2", pt);  
+      svg.append("circle")         
+        .attr('class', 'node-label node-label-ring')
+        .attr("cx", d.x) 
+        .attr("cy", d.y)
+        .attr("r", cd); 
+      svg.append("text")         
+        .attr('class', 'node-label node-label-title')
+        .attr("x", pl) 
+        .attr("y", pt - 5)
+        .text(d.data.name);
+      svg.append("text")         
+        .attr('class', 'node-label node-label-text')
+        .attr("x", pl + Math.abs(offset.left)) 
+        .attr("y", pt + 15 + Math.abs(offset.top))
+        .attr('width', pr)
+        .text(d.data.desc);
+    }
+
+    var hodeNodeLabel = function(d) {
+      svg.selectAll(".node-label").remove()
     }
 
     // Set the gravitational home of a node
@@ -147,7 +203,6 @@ var bubble = (function() {
         } else {
           console.log("setNodeGravityPoint gPoint was "+gPoint)
         }
-        
     }
 
     // Load node data
@@ -179,6 +234,8 @@ var bubble = (function() {
     
     // When a node is selected
     var nodeClick = function(n, j) {
+      // Hide emouse over label
+      hodeNodeLabel(n);
       // If the node clicked is the one currently focused then ignore
       if (focusNode !== null && focusNode === n) return
       // Deselect current node
@@ -268,7 +325,7 @@ var bubble = (function() {
     // Generate test data
     var testData = function() {
       var testNodes  = [];
-      var totalNodes = 200;
+      var totalNodes = 600;
       var max_pop = null;
       var min_pop = null;
 
@@ -415,6 +472,7 @@ var bubble = (function() {
       });
     }
 
+    
     // -----------------
     // Public API
     // -----------------
