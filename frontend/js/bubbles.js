@@ -158,9 +158,6 @@ var bubble = (function() {
       var o2 = cd * Math.sin(t),
           a2 = cd * Math.cos(t);
 
-
-      console.log(h);
-
       svg.append("line")         
         .attr('class', 'node-label node-label-line')
         .attr("x1", d.x - a2)     
@@ -441,6 +438,7 @@ var bubble = (function() {
       var nodesToHide = [];
       for (n in nodes) {
         var node = nodes[n];
+
         if (search_text !==null && search_text !=="" && node.data.name.toLowerCase().indexOf(search_text) === -1) {
           nodesToHide.push(parseInt(n));
         } 
