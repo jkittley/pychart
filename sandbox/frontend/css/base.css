@@ -1,0 +1,154 @@
+.site-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.vis {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.seek-panel {
+  width: 100vw;
+  height: 200px;
+  background-color: #eee;
+  background-color: rgba(155,155,155,0.4);
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.node-info {
+    width: 100%;
+    height: 200px;
+    background-color: #eee;
+    background-color: rgba(0,155,155,0.4);
+    position: absolute;
+    bottom: 0;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.node-info .close {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.node-info .close a {
+  color: black;
+  font-size: 30px;
+}
+
+.node-info .pinfo {
+    width: 66%;
+}
+
+.node-info .pinfo span {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+}
+
+.node-info .pneighbours {
+  padding: 10px;
+  position: absolute;
+  width: 33%;
+  height: 100%;
+  right: 0;
+  top:0px;
+  overflow: auto;
+}
+
+.node-label-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+}
+
+.node-label-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+}
+
+.node-label-line {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.node-label-ring {
+  stroke: #000;
+  stroke-width: 3px;
+  z-index: -1000;
+  fill: none;
+}
+
+.seek-panel .search {
+    margin: 30px;
+}
+
+.seek-panel p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    margin: 30px;
+}
+
+.search {
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.search input{
+    border: 0;
+    box-shadow: none;
+}
+
+.search button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+.search button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+.search .glyphicon-search{
+    font-size: 23px;
+}
+
+.settings {
+    position: absolute;
+    top:10px;
+    right:100px;
+    width: 85px;
+    height: 85px;
+}
+
+.focus-node {
+  stroke: #ccc;
+  stroke-width: 4px;
+/*  stroke-dasharray: 10 10;*/
+}
+
+.neighbour-list {
+  cursor: pointer;
+}
