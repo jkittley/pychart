@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block css %}
+    {{ block.super  }}
+    <link rel="stylesheet" href="{% static 'css/graph.css' %}">
+    <link rel="stylesheet" href="{% static 'css/timeseries.css' %}">
+    <link rel="stylesheet" href="{% static 'css/timeslider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/metricsgraphics.css' %}">
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super  }}
+    <script src="{% static 'js/graph.js' %}"></script>
+    <script src="{% static 'js/timeseries.js' %}"></script>
+    <script src="{% static 'js/metricsgraphics.js' %}"></script>
+    <script src="{% static 'js/timeslider.js' %}"></script>
+    <script>
+        $('.timeSlider').timeSlider({});
+        $('.connectionsGraph').graph({});
+        $('.timeSeries').timeSeries({
+            click: function(date) {
+                alert("WOHOO"+date);
+            }
+        });
+
+    </script>
+{% endblock %}
+
+{% block content %}
+<BR><BR>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                  <div class="card-block">
+                    <h4 class="card-title">Numpy</h4>
+                    <p class="card-text">NumPy is a general-purpose array-processing package designed to efficiently
+                        manipulate large multi-dimensional arrays of arbitrary records without sacrificing too much
+                        speed for small multi-dimensional <div id="readOn" class="collapse" style="padding: 0px; margin: 0px;">
+                             NumPy is built on the Numeric code base and adds
+                        features introduced by numarray as well as an extended C-API and the ability to create arrays of
+                        arbitrary type which also makes NumPy suitable for interfacing with general-purpose data-base
+                        applications.
+                        </div>
+                        <a href="#readOn" data-toggle="collapse" aria-expanded="false" aria-controls="readOn">more</a>
+                    </p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Web: <a href="http://www.numpy.org">www.numpy.org</a></li>
+                    <li class="list-group-item">PyPI: <a href="https://pypi.python.org/pypi/numpy/1.8.1">numpy</a></li>
+                    <li class="list-group-item">Popularity: 80% <span class="label label-success pull-right"><i class="fa fa-arrow-up"></i> 5%</span></li>
+                    <li class="list-group-item">Usage: 85% <span class="label label-danger pull-right"><i class="fa fa-arrow-down"></i> 2%</span></li>
+                  </ul>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="timeSlider"></div>
+                <div class="connectionsGraph" style="width: 100%; height: 400px;"></div>
+                <hr>
+                <div class="timeSeries" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+
+
+
+{% endblock %}
