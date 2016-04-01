@@ -7,6 +7,5 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(Lib)
-admin.site.register(LibSnapshot)
 admin.site.register(Repo)
-admin.site.register(RepoSnapshot)
+admin.site.register(Edge)
