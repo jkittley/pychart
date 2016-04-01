@@ -5,6 +5,8 @@
     $.fn.timeSeries = function( options ) {
         var settings = $.extend({
             click: null,
+            width: 1000,
+            height: 200
         }, options );
 
         this.filter( "div" ).each(function() {
@@ -502,15 +504,17 @@
 
         data = MG.convert.date(data, 'date');
         var t = MG.data_graphic({
-            title: "Usage",
             data: data,
             area: false,
-            width: 800,
-            height: 300,
+            width: settings.width,
+            height: settings.height,
             right: 40,
             target: elem,
             x_accessor: 'date',
             y_accessor: 'value',
+            top: 20,
+            right: 0,
+            bottom: 50,
             mouseover: function(e) {
                 selectedDate = e.date;
             }
